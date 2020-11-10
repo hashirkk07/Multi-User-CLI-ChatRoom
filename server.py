@@ -2,7 +2,7 @@ import socket
 import threading
 
 host = '127.0.0.1'
-port = 45454
+port = 5555
 clients = []
 aliases = []
 
@@ -34,7 +34,7 @@ def clientConnect():
         client, addr = server.accept()
         clients.append(client)
         client.send('Enter your alias:'.encode('ascii'))
-        alias = server.recv(1024).decode('ascii')
+        alias = client.recv(1024).decode('ascii')
         aliases.append(alias)
         print(f'client {str(alias)} connected from the address {str(addr)}')
         client.send('You are connected to the room'.encode('ascii'))
