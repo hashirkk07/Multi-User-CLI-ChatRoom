@@ -4,9 +4,10 @@ Hi, this is a simple multi-user chat room built using threading and socket progr
 ### Usage Guidelines:
 1. Run the server in one terminal using the command   
 '''   
-$ python server.py
+$ python server.py   
 '''   
  
-2. Run the clients in different terminal using the command
-
- $ python client.py
+2. Run the clients in different terminal using the command   
+'''   
+$ python client.py   
+'''   
