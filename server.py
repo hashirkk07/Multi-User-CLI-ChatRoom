@@ -10,20 +10,21 @@ server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind((host,port))
 server.listen()
 
-def broadcast(mesg):
+def broadcast(msg):
     for client in clients:
-        client.send(mesg)
+        client.send(msg)
 
 def forward(client):
     while True:
         try:
-            mesg = client.recv(1024)
-            broadcast(mesg)
+            msg = client.recv(1024)
+            broadcast(msg)
         except:
             clientNum = clients.index(client)
             clientAlias = aliases[clientNum]
-            clients.remove(client)
             aliases.remove(clientAlias)
+            clients.remove(client) 
+            
             client.close()
             broadcast(f'User {clientAlias} has left from the room'.encode('ascii'))
             break
@@ -35,13 +36,16 @@ def clientConnect():
         client.send('Enter your alias:'.encode('ascii'))
         alias = server.recv(1024).decode('ascii')
         aliases.append(alias)
-        print(f'client {alias} connected from the address {addr}')
+        print(f'client {str(alias)} connected from the address {str(addr)}')
         client.send('You are connected to the room'.encode('ascii'))
-        broadcast(f'User {alias} entered the room using {addr}'.encode('ascii'))
+        broadcast(f'User {str(alias)} entered the room using {str(addr)}'.encode('ascii'))
 
-        thread = threading.Thread(target=clientConnect, args=(client,))
+        thread = threading.Thread(target=forward, args=(client,))
         thread.start()
 
-print('listening mode')
+print('listening mode enabled')
+clientConnect()
+
+
 
 
